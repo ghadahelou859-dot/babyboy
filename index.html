@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#e8f3fa">
+  <title>استقبال يس</title>
+  <meta name="description" content="دعوة استقبال الطفل يس">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="site-shell">
+  <audio id="music" src="assets/yaseen-calm-baby.mp3" loop preload="metadata"></audio>
+
+  <section id="intro" class="intro-stage" aria-label="افتتاح دعوة استقبال يس">
+    <img id="cover" class="cover-image" src="assets/cover.jpg" alt="المس يد يس لفتح الدعوة">
+    <video id="handVideo" class="intro-video" src="assets/baby-hand.mp4" playsinline muted preload="metadata"></video>
+    <video id="revealVideo" class="intro-video" src="assets/reveal.mp4" playsinline muted preload="metadata"></video>
+    <button id="openInvitation" class="hand-hotspot" aria-label="اضغط على يد الطفل لفتح الدعوة"></button>
+  </section>
+
+  <div id="invitation" class="invitation-flow" hidden>
+    <section class="cloud-section welcome-section">
+      <span class="star">✦</span><p>بفضل الله اكتملت فرحتنا</p>
+      <h1>يس</h1><p class="soft-copy">وأصبح لحكايتنا أجمل بداية</p>
+      <div class="scroll-cue">مرّر للأسفل <b>⌄</b></div>
+    </section>
+
+    <section class="cloud-section date-section">
+      <p class="eyebrow">موعد استقبال صغيرنا</p>
+      <div class="date-display"><span>الأربعاء</span><strong>07</strong><span>يوليو 2027</span></div>
+      <div class="time-pill">الساعة السابعة مساءً</div>
+      <div class="countdown-grid">
+        <div class="countdown-item"><strong id="days">00</strong><span>أيام</span></div>
+        <div class="countdown-item"><strong id="hours">00</strong><span>ساعات</span></div>
+        <div class="countdown-item"><strong id="minutes">00</strong><span>دقائق</span></div>
+        <div class="countdown-item"><strong id="seconds">00</strong><span>ثوانٍ</span></div>
+      </div>
+    </section>
+
+    <section class="cloud-section photo-section">
+      <div class="baby-blend"><img src="assets/baby-photo.jpg" alt="الطفل يس"></div>
+      <p>منذ أن أطلّ يس على دنيانا، صار للفرح صوتٌ آخر وللبيت قلبٌ صغير ينبض بالحب</p>
+    </section>
+
+    <section class="cloud-section location-section">
+      <div class="funky-location-art" aria-hidden="true"><span>✦</span><b>☁</b><i>⌖</i><span>✧</span></div>
+      <p class="eyebrow">مكان الاستقبال</p>
+      <h2>اتبعوا الغيمة… لتصلوا إلى فرحتنا</h2>
+      <a href="https://maps.app.goo.gl/jCqX5vRhshDhtVL88" target="_blank" rel="noopener">فتح الموقع على الخريطة</a>
+    </section>
+
+    <section class="cloud-section rsvp-section">
+      <p class="eyebrow">تأكيد الحضور</p><h2>وجودكم يكمل فرحتنا</h2>
+      <label><span>الاسم</span><input id="guestName" placeholder="اكتب اسمك" autocomplete="name"></label>
+      <button id="rsvpButton">إرسال التأكيد عبر واتساب</button><small>058494977</small>
+    </section>
+
+    <section class="cloud-section closing-section">
+      <span class="star">✦</span>
+      <h2>بقدومه اتّسع القلب… وصار للحياة معنى أجمل</h2>
+      <p>ننتظركم لتشاركونا لحظةً ستبقى في ذاكرة أهل يس، فبحضوركم تكتمل فرحتنا</p>
+      <em>بمحبة أهل يس</em><strong>07 · 07 · 2027</strong>
+      <footer class="brand-signature">
+        <span>تصميم وتنفيذ</span><b>Inviteation by Ghada</b>
+        <nav aria-label="حسابات Inviteation by Ghada">
+          <a href="https://www.instagram.com/ghada.invitations?utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@ghada.invitations?_r=1&_t=ZS-99P2dCRz9WR" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://snapchat.com/t/uYUYp40i" target="_blank" rel="noopener">Snapchat</a>
+        </nav>
+      </footer>
+    </section>
+  </div>
+  <button id="musicButton" class="music-button" aria-label="إيقاف الموسيقى" hidden>♫</button>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
