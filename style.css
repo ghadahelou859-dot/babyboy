@@ -684,3 +684,45 @@ a {
   }
 
 }
+
+
+/* زر الإعجاب الجانبي المرتبط بقاعدة البيانات */
+.like-button {
+  position: fixed;
+  z-index: 121;
+  left: max(15px, calc((100vw - 540px) / 2 + 15px));
+  top: 50%;
+  display: grid;
+  min-width: 50px;
+  min-height: 64px;
+  padding: 8px 10px;
+  place-items: center;
+  border: 1px solid rgba(112, 166, 204, 0.42);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--blue-deep);
+  box-shadow: 0 9px 25px rgba(63, 109, 141, 0.18);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.like-button span {
+  font-family: Arial, sans-serif;
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.like-button b {
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+}
+
+.like-button.liked {
+  color: #e27891;
+}
+
+.like-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
