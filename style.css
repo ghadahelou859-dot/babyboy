@@ -726,3 +726,19 @@ a {
   cursor: wait;
   opacity: 0.65;
 }
+
+
+/* تقييم الكرت والرأي */
+.feedback-card{width:min(100%,390px);margin:34px 0 4px;padding:22px 18px;border:1px solid rgba(120,172,209,.3);border-radius:24px;background:rgba(255,255,255,.76);box-shadow:0 12px 30px rgba(67,118,153,.1)}
+.feedback-title{margin:0!important;color:var(--blue-deep)!important;font-family:"Aref Ruqaa",serif;font-size:1.7rem!important;font-weight:700}
+.feedback-copy{margin:7px auto 14px!important;color:#728fa2!important;font-size:.82rem!important;line-height:1.8!important}
+.rating-stars{display:flex;direction:ltr;justify-content:center;gap:4px;margin-bottom:14px}
+.rating-stars button{padding:0;border:0;background:transparent;color:#cbd8e1;font-size:2rem;line-height:1;cursor:pointer;text-shadow:0 1px 2px #fff}
+.rating-stars button.selected{color:#f1b94b}
+.feedback-form{display:grid;gap:10px}
+.feedback-form textarea{width:100%;min-height:92px;padding:13px 15px;border:1px solid #c7dfef;border-radius:16px;outline:0;resize:vertical;background:rgba(255,255,255,.9);color:var(--ink);font-family:inherit;font-size:.82rem}
+.feedback-form textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(120,172,209,.12)}
+.feedback-form button{padding:12px 22px;border:0;border-radius:999px;background:linear-gradient(135deg,#5c95bd,#83badb);color:#fff;font-family:inherit;font-weight:600;cursor:pointer}
+.feedback-form button:disabled{opacity:.6;cursor:wait}
+.feedback-form small{min-height:18px;color:var(--blue-deep);font-size:.72rem}
+.brand-signature nav{direction:ltr}
