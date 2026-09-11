@@ -7,6 +7,7 @@ const EVENT_DATE =
 
 
 const RSVP_NUMBER = "97058494977";
+const REVEAL_DURATION_SECONDS = 5;
 
 
 /* ========================================
@@ -214,8 +215,22 @@ revealVideo.addEventListener(
   showInvitation
 );
 
+revealVideo.addEventListener(
+  "timeupdate",
+  function () {
+    if (revealVideo.currentTime >= REVEAL_DURATION_SECONDS) {
+      showInvitation();
+    }
+  }
+);
+
+
+let invitationIsVisible = false;
 
 function showInvitation() {
+
+  if (invitationIsVisible) return;
+  invitationIsVisible = true;
 
   /* إيقاف الفيديوهات */
 
@@ -607,7 +622,6 @@ async function callInvitationRpc(functionName, body) {
       method: "POST",
       headers: {
         apikey: SUPABASE_KEY,
-        Authorization: "Bearer " + SUPABASE_KEY,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
@@ -629,7 +643,7 @@ function firstResult(value) {
 function updateLikeDisplay(stats) {
   const result = firstResult(stats) || {};
   const count = result.likes_count ?? result.like_count ?? result.likes ?? 0;
-  const liked = Boolean(result.liked ?? result.has_liked ?? result.is_liked);
+  const liked = Boolean(result.liked ?? result.has_liked ?? result.is_liked ?? result.liked_by_me);
 
   likeCount.textContent = String(count);
   likeButton.classList.toggle("liked", liked);
@@ -677,3 +691,81 @@ likeButton.addEventListener("click", async function () {
 });
 
 startInvitationTracking();
+
+
+/* ========================================
+   تقييم الكرت وإرسال الرأي إلى Supabase
+======================================== */
+
+const ratingButtons = Array.from(
+  document.querySelectorAll("[data-rating]")
+);
+const feedbackForm = document.getElementById("feedbackForm");
+const feedbackText = document.getElementById("feedbackText");
+const feedbackStatus = document.getElementById("feedbackStatus");
+let selectedRating = 0;
+
+ratingButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    selectedRating = Number(button.dataset.rating);
+    ratingButtons.forEach(function (item) {
+      item.classList.toggle(
+        "selected",
+        Number(item.dataset.rating) <= selectedRating
+      );
+    });
+  });
+});
+
+feedbackForm.addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  const opinionText = feedbackText.value.trim();
+
+  if (!selectedRating && !opinionText) {
+    feedbackStatus.textContent =
+      "اختاروا تقييمًا أو اكتبوا رأيكم.";
+    return;
+  }
+
+  const opinion = [
+    selectedRating
+      ? "التقييم: " + selectedRating + "/5"
+      : "",
+    opinionText
+      ? "الرأي: " + opinionText
+      : ""
+  ].filter(Boolean).join("\n");
+
+  const submitButton =
+    feedbackForm.querySelector('button[type="submit"]');
+
+  submitButton.disabled = true;
+  feedbackStatus.textContent = "جاري الحفظ…";
+
+  try {
+    await callInvitationRpc(
+      "submit_invitation_opinion",
+      {
+        p_slug: INVITATION_SLUG,
+        p_visitor_key: VISITOR_KEY,
+        p_display_name: "زائر استقبال يس",
+        p_opinion_text: opinion
+      }
+    );
+
+    feedbackStatus.textContent =
+      "شكرًا! تم حفظ تقييمكم ورأيكم ✓";
+    feedbackText.value = "";
+    selectedRating = 0;
+    ratingButtons.forEach(function (item) {
+      item.classList.remove("selected");
+    });
+  } catch (error) {
+    console.error("تعذر حفظ الرأي:", error);
+    feedbackStatus.textContent =
+      "تعذر الحفظ، حاولوا مرة ثانية.";
+  } finally {
+    submitButton.disabled = false;
+  }
+});
