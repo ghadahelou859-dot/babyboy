@@ -572,3 +572,108 @@ music.addEventListener(
 
   }
 );
+
+
+/* ========================================
+   ربط الإعجابات والمشاهدات مع Supabase
+======================================== */
+
+const SUPABASE_URL = "https://jzswtwicvgppisasrkqe.supabase.co";
+const SUPABASE_KEY = "sb_publishable_qJGOZoWBOrZ952qJnYTqNg_oaMSIStu";
+const INVITATION_SLUG = "babyboy";
+
+const likeButton = document.getElementById("likeButton");
+const likeCount = document.getElementById("likeCount");
+
+function getVisitorKey() {
+  const storageKey = "invitation_visitor_key";
+  let visitorKey = localStorage.getItem(storageKey);
+
+  if (!visitorKey) {
+    visitorKey = self.crypto?.randomUUID?.() ||
+      "visitor-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+    localStorage.setItem(storageKey, visitorKey);
+  }
+
+  return visitorKey;
+}
+
+const VISITOR_KEY = getVisitorKey();
+
+async function callInvitationRpc(functionName, body) {
+  const response = await fetch(
+    SUPABASE_URL + "/rest/v1/rpc/" + functionName,
+    {
+      method: "POST",
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(await response.text());
+  }
+
+  const text = await response.text();
+  return text ? JSON.parse(text) : null;
+}
+
+function firstResult(value) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function updateLikeDisplay(stats) {
+  const result = firstResult(stats) || {};
+  const count = result.likes_count ?? result.like_count ?? result.likes ?? 0;
+  const liked = Boolean(result.liked ?? result.has_liked ?? result.is_liked);
+
+  likeCount.textContent = String(count);
+  likeButton.classList.toggle("liked", liked);
+  likeButton.querySelector("span").textContent = liked ? "♥" : "♡";
+  likeButton.setAttribute("aria-pressed", String(liked));
+}
+
+async function refreshInvitationStats() {
+  const stats = await callInvitationRpc("get_invitation_stats", {
+    p_slug: INVITATION_SLUG,
+    p_visitor_key: VISITOR_KEY
+  });
+  updateLikeDisplay(stats);
+}
+
+async function startInvitationTracking() {
+  try {
+    await callInvitationRpc("record_invitation_view", {
+      p_slug: INVITATION_SLUG,
+      p_visitor_key: VISITOR_KEY
+    });
+    await refreshInvitationStats();
+    likeButton.hidden = false;
+  } catch (error) {
+    console.error("تعذر تحميل بيانات الدعوة:", error);
+  }
+}
+
+likeButton.addEventListener("click", async function () {
+  if (likeButton.disabled) return;
+  likeButton.disabled = true;
+
+  try {
+    const result = await callInvitationRpc("toggle_invitation_like", {
+      p_slug: INVITATION_SLUG,
+      p_visitor_key: VISITOR_KEY
+    });
+    updateLikeDisplay(result);
+    await refreshInvitationStats();
+  } catch (error) {
+    console.error("تعذر تسجيل الإعجاب:", error);
+  } finally {
+    likeButton.disabled = false;
+  }
+});
+
+startInvitationTracking();
