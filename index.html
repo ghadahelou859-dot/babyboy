@@ -31,7 +31,7 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 
 <body>
@@ -292,6 +292,26 @@
         </strong>
 
 
+        <div class="feedback-card">
+          <p class="feedback-title">حبيتوا التجربة؟</p>
+          <p class="feedback-copy">قيّموا الكرت وشاركونا شو بتحبوا تشوفوا بكروتنا الجاية.</p>
+
+          <div class="rating-stars" id="ratingStars" aria-label="تقييم الكرت من خمس نجوم">
+            <button type="button" data-rating="1" aria-label="نجمة واحدة">★</button>
+            <button type="button" data-rating="2" aria-label="نجمتان">★</button>
+            <button type="button" data-rating="3" aria-label="ثلاث نجوم">★</button>
+            <button type="button" data-rating="4" aria-label="أربع نجوم">★</button>
+            <button type="button" data-rating="5" aria-label="خمس نجوم">★</button>
+          </div>
+
+          <form id="feedbackForm" class="feedback-form">
+            <textarea id="feedbackText" placeholder="اكتبوا رأيكم أو فكرتكم هون…" aria-label="الرأي أو الاقتراح"></textarea>
+            <button type="submit">إرسال الرأي</button>
+            <small id="feedbackStatus" role="status"></small>
+          </form>
+        </div>
+
+
         <!-- حسابات التواصل -->
         <footer class="brand-signature">
 
@@ -369,7 +389,7 @@
 
 
   <!-- ملف الحركة والتفاعل -->
-  <script src="script.js"></script>
+  <script src="script.js?v=2"></script>
 
 </body>
 
